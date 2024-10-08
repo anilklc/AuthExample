@@ -1,4 +1,7 @@
-﻿using AuthExample.Application.Features.Commands.Product.CreateProduct;
+﻿using AuthExample.Application.Consts;
+using AuthExample.Application.CustomAttributes;
+using AuthExample.Application.Enums;
+using AuthExample.Application.Features.Commands.Product.CreateProduct;
 using AuthExample.Application.Features.Commands.Product.RemoveProduct;
 using AuthExample.Application.Features.Commands.Product.UpdateProduct;
 using AuthExample.Application.Features.Queries.Product.GetAllProduct;
@@ -34,6 +37,7 @@ namespace AuthExample.API.Controllers
         }
 
         [HttpPost("[action]")]
+        [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.Products, ActionType = ActionType.Reading, Definition = "Create Product")]
         public async Task<IActionResult> CreateProduct([FromForm] CreateProductCommandRequest request)
         {
             CreateProductCommandResponse response = await _mediator.Send(request);
@@ -41,6 +45,7 @@ namespace AuthExample.API.Controllers
         }
 
         [HttpPut("[action]")]
+        [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.Products, ActionType = ActionType.Reading, Definition = "Update Product")]
         public async Task<IActionResult> UpdateProduct([FromBody] UpdateProductCommandRequest request)
         {
             UpdateProductCommandResponse response = await _mediator.Send(request);
@@ -48,6 +53,7 @@ namespace AuthExample.API.Controllers
         }
 
         [HttpDelete("[action]/{Id}")]
+        [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.Products, ActionType = ActionType.Reading, Definition = "Delete Product")]
         public async Task<IActionResult> RemoveProduct(string Id)
         {
             RemoveProductCommandRequest request = new RemoveProductCommandRequest { Id = Id };
