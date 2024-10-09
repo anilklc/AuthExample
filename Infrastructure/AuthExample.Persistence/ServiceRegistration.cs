@@ -31,6 +31,8 @@ namespace AuthExample.Persistence
             }).AddRoles<AppRole>().AddEntityFrameworkStores<AuthExampleDbContext>().AddTokenProvider<DataProtectorTokenProvider<AppUser>>(TokenOptions.DefaultProvider);
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IAuthService, AuthService>();
+            services.AddScoped<IRoleService, RoleService>();
+            services.AddScoped<IAuthorizationEndpointService, AuthorizationEndpointService>();
             services.AddScoped<IProductReadRepository,ProductReadRepository>();
             services.AddScoped<IProductWriteRepository,ProductWriteRepository>();
             services.AddScoped<IBrandReadRepository,BrandReadRepository>();

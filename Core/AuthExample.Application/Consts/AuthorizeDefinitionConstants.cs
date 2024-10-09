@@ -10,5 +10,6 @@ namespace AuthExample.Application.Consts
     {
         public const string Brands = "Brands";
         public const string Products = "Products";
+        public const string Roles = "Roles";
     }
 }
