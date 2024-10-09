@@ -1,4 +1,6 @@
 ﻿using AuthExample.Application.Interfaces;
+using AuthExample.Application.Interfaces.Services.Configurations;
+using AuthExample.Infrastructure.Configurations;
 using AuthExample.Infrastructure.Services.Token;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
@@ -37,6 +39,8 @@ namespace AuthExample.Infrastructure
 
                  };
               });
+
+            services.AddScoped<IApplicationService, ApplicationService>();
            
         }
     }

@@ -7,6 +7,7 @@ using AuthExample.Application.Features.Commands.Product.UpdateProduct;
 using AuthExample.Application.Features.Queries.Product.GetAllProduct;
 using AuthExample.Application.Features.Queries.Product.GetByIdProduct;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AuthExample.API.Controllers
@@ -37,7 +38,8 @@ namespace AuthExample.API.Controllers
         }
 
         [HttpPost("[action]")]
-        [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.Products, ActionType = ActionType.Reading, Definition = "Create Product")]
+        [Authorize(AuthenticationSchemes = "Admin")]
+        [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.Products, ActionType = ActionType.Writing, Definition = "Create Product")]
         public async Task<IActionResult> CreateProduct([FromForm] CreateProductCommandRequest request)
         {
             CreateProductCommandResponse response = await _mediator.Send(request);
@@ -45,7 +47,8 @@ namespace AuthExample.API.Controllers
         }
 
         [HttpPut("[action]")]
-        [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.Products, ActionType = ActionType.Reading, Definition = "Update Product")]
+        [Authorize(AuthenticationSchemes ="Admin")]
+        [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.Products, ActionType = ActionType.Updating, Definition = "Update Product")]
         public async Task<IActionResult> UpdateProduct([FromBody] UpdateProductCommandRequest request)
         {
             UpdateProductCommandResponse response = await _mediator.Send(request);
@@ -53,7 +56,8 @@ namespace AuthExample.API.Controllers
         }
 
         [HttpDelete("[action]/{Id}")]
-        [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.Products, ActionType = ActionType.Reading, Definition = "Delete Product")]
+        [Authorize(AuthenticationSchemes = "Admin")]
+        [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.Products, ActionType = ActionType.Deleting, Definition = "Delete Product")]
         public async Task<IActionResult> RemoveProduct(string Id)
         {
             RemoveProductCommandRequest request = new RemoveProductCommandRequest { Id = Id };
