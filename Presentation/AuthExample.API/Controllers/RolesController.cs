@@ -24,7 +24,7 @@ namespace AuthExample.API.Controllers
             _mediator = mediator;
         }
 
-        [HttpGet]
+        [HttpGet("[action]")]
         [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.Roles, ActionType = ActionType.Reading, Definition = "Get Roles")]
         public async Task<IActionResult> GetAllRole([FromQuery] GetAllRoleQueryRequest getAllRoleQueryRequest)
         {
@@ -32,7 +32,7 @@ namespace AuthExample.API.Controllers
             return Ok(response);
         }
 
-        [HttpGet("{Id}")]
+        [HttpGet("[action]/{Id}")]
         [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.Roles, ActionType = ActionType.Reading, Definition = "Get Role By Id")]
         public async Task<IActionResult> GetRoles([FromRoute] GetRoleByIdQueryRequest getRoleByIdQueryRequest)
         {
@@ -40,7 +40,7 @@ namespace AuthExample.API.Controllers
             return Ok(response);
         }
 
-        [HttpPost()]
+        [HttpPost("[action]")]
         [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.Roles, ActionType = ActionType.Writing, Definition = "Create Role")]
         public async Task<IActionResult> CreateRole([FromBody] CreateRoleCommandRequest createRoleCommandRequest)
         {
@@ -48,7 +48,7 @@ namespace AuthExample.API.Controllers
             return Ok(response);
         }
 
-        [HttpPut("{Id}")]
+        [HttpPut("[action]/{Id}")]
         [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.Roles, ActionType = ActionType.Updating, Definition = "Update Role")]
         public async Task<IActionResult> UpdateRole([FromBody, FromRoute] UpdateRoleCommandRequest updateRoleCommandRequest)
         {
@@ -56,7 +56,7 @@ namespace AuthExample.API.Controllers
             return Ok(response);
         }
 
-        [HttpDelete("{Id}")]
+        [HttpDelete("[action]/{Id}")]
         [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.Roles, ActionType = ActionType.Deleting, Definition = "Delete Role")]
         public async Task<IActionResult> DeleteRole([FromRoute] RemoveRoleCommandRequest removeRoleCommandRequest)
         {

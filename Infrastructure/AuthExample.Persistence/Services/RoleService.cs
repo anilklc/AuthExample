@@ -34,7 +34,7 @@ namespace AuthExample.Persistence.Services
 
         public async Task<List<Role>> GetAllRole()
         {
-            var roles = await _roleManager.Roles.ToListAsync();
+            var roles =  _roleManager.Roles.ToList();
             return roles.Select(r => new Role()
             {
                 Id = r.Id.ToString(),

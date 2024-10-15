@@ -16,7 +16,7 @@ namespace AuthExample.API.Controllers
             _applicationService = applicationService;
         }
 
-        [HttpGet]
+        [HttpGet("[action]")]
         [AuthorizeDefinition(ActionType = ActionType.Reading,Definition = "Get Authorize Definition",Menu ="Application Service")] 
         public IActionResult GetAuthorizeDefinitionEndpoints()
         {
