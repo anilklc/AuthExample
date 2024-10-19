@@ -26,15 +26,15 @@ namespace AuthExample.API.Controllers
 
         [HttpGet("[action]")]
         [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.Roles, ActionType = ActionType.Reading, Definition = "Get Roles")]
-        public async Task<IActionResult> GetAllRole([FromQuery] GetAllRoleQueryRequest getAllRoleQueryRequest)
+        public async Task<IActionResult> GetAllRoles()
         {
-            GetAllRoleQueryResponse response = await _mediator.Send(getAllRoleQueryRequest);
+            GetAllRoleQueryResponse response = await _mediator.Send(new GetAllRoleQueryRequest());
             return Ok(response);
         }
 
         [HttpGet("[action]/{Id}")]
         [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.Roles, ActionType = ActionType.Reading, Definition = "Get Role By Id")]
-        public async Task<IActionResult> GetRoles([FromRoute] GetRoleByIdQueryRequest getRoleByIdQueryRequest)
+        public async Task<IActionResult> GetByIdRole([FromRoute] GetRoleByIdQueryRequest getRoleByIdQueryRequest)
         {
             GetRoleByIdQueryResponse response = await _mediator.Send(getRoleByIdQueryRequest);
             return Ok(response);
@@ -48,7 +48,7 @@ namespace AuthExample.API.Controllers
             return Ok(response);
         }
 
-        [HttpPut("[action]/{Id}")]
+        [HttpPut("[action]")]
         [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.Roles, ActionType = ActionType.Updating, Definition = "Update Role")]
         public async Task<IActionResult> UpdateRole([FromBody, FromRoute] UpdateRoleCommandRequest updateRoleCommandRequest)
         {
@@ -58,7 +58,7 @@ namespace AuthExample.API.Controllers
 
         [HttpDelete("[action]/{Id}")]
         [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.Roles, ActionType = ActionType.Deleting, Definition = "Delete Role")]
-        public async Task<IActionResult> DeleteRole([FromRoute] RemoveRoleCommandRequest removeRoleCommandRequest)
+        public async Task<IActionResult> RemoveRole([FromRoute] RemoveRoleCommandRequest removeRoleCommandRequest)
         {
             RemoveRoleCommandResponse response = await _mediator.Send(removeRoleCommandRequest);
             return Ok(response);

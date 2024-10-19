@@ -40,7 +40,7 @@ namespace AuthExample.API.Controllers
         [HttpPost("[action]")]
         [Authorize(AuthenticationSchemes = "Admin")]
         [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.Products, ActionType = ActionType.Writing, Definition = "Create Product")]
-        public async Task<IActionResult> CreateProduct([FromForm] CreateProductCommandRequest request)
+        public async Task<IActionResult> CreateProduct([FromBody] CreateProductCommandRequest request)
         {
             CreateProductCommandResponse response = await _mediator.Send(request);
             return Ok(response);

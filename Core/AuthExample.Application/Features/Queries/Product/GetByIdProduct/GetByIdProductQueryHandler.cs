@@ -25,8 +25,7 @@ namespace AuthExample.Application.Features.Queries.Product.GetByIdProduct
                 Id = product.Id.ToString(),
                 ProductName = product.ProductName,
                 ProductDescription = product.ProductDescription,
-                ProductPrice = product.ProductPrice,
-                BrandId = product.Brand.Id
+                ProductPrice = product.ProductPrice
             };
         }
     }

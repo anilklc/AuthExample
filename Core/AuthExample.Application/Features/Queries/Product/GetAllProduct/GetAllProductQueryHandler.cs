@@ -1,4 +1,5 @@
-﻿using AuthExample.Application.Interfaces.Repositories;
+﻿using AuthExample.Application.DTOs.Product;
+using AuthExample.Application.Interfaces.Repositories;
 using AuthExample.Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -20,11 +21,19 @@ namespace AuthExample.Application.Features.Queries.Product.GetAllProduct
 
         public async Task<GetAllProductQueryResponse> Handle(GetAllProductQueryRequest request, CancellationToken cancellationToken)
         {
-            var products =  _productReadRepository.GetAll(false).Include(b=>b.Brand).ToList();
-            
+            var products = await _productReadRepository.GetAll(false).Include(b=>b.Brand).ToListAsync();
+            var productList = products.Select(p => new ProductDto()
+            { 
+                Id = p.Id.ToString(),
+                ProductName = p.ProductName,
+                ProductDescription = p.ProductDescription,
+                ProductPrice = p.ProductPrice,
+                BrandId = p.BrandId,
+                BrandName = p.Brand.BrandName,   
+            }).ToList();
             return new()
             {
-                Products = products
+                Products = productList
             };
         }
     }

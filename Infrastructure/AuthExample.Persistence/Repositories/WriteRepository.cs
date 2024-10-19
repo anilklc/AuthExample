@@ -3,6 +3,7 @@ using AuthExample.Domain.Common;
 using AuthExample.Persistence.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using System.Security.Cryptography.X509Certificates;
 
 namespace AuthExample.Persistence.Repositories
 {

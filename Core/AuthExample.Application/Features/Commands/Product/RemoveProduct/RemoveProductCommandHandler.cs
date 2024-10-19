@@ -10,17 +10,17 @@ namespace AuthExample.Application.Features.Commands.Product.RemoveProduct
 {
     public class RemoveProductCommandHandler : IRequestHandler<RemoveProductCommandRequest, RemoveProductCommandResponse>
     {
-        private readonly IBrandWriteRepository _brandWriteRepository;
+        private readonly IProductWriteRepository _ProductWriteRepository;
 
-        public RemoveProductCommandHandler(IBrandWriteRepository brandWriteRepository)
+        public RemoveProductCommandHandler(IProductWriteRepository ProductWriteRepository)
         {
-            _brandWriteRepository = brandWriteRepository;
+            _ProductWriteRepository = ProductWriteRepository;
         }
 
         public async Task<RemoveProductCommandResponse> Handle(RemoveProductCommandRequest request, CancellationToken cancellationToken)
         {
-            await _brandWriteRepository.RemoveAsync(request.Id);
-            await _brandWriteRepository.SaveAsync();
+            await _ProductWriteRepository.RemoveAsync(request.Id);
+            await _ProductWriteRepository.SaveAsync();
             return new();
         }
     }

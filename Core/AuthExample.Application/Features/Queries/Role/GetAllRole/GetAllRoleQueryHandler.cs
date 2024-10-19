@@ -19,7 +19,7 @@ namespace AuthExample.Application.Features.Queries.Role.GetAllRole
 
         public async Task<GetAllRoleQueryResponse> Handle(GetAllRoleQueryRequest request, CancellationToken cancellationToken)
         {
-            var roles = _roleService.GetAllRole();
+            var roles = _roleService.GetAllRole().Result;
             return new()
             {
                 Roles = roles,
