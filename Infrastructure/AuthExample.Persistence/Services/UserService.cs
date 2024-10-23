@@ -1,4 +1,5 @@
-﻿using AuthExample.Application.DTOs.User;
+﻿using AuthExample.Application.DTOs.Role;
+using AuthExample.Application.DTOs.User;
 using AuthExample.Application.Exceptions;
 using AuthExample.Application.Interfaces.Services;
 using AuthExample.Domain.Entities.Identity;
@@ -143,6 +144,31 @@ namespace AuthExample.Persistence.Services
             else
                 throw new NotFoundUserException();
 
+        }
+
+        public async Task AssignRoleToUserAsnyc(string userId, string[] roles)
+        {
+            AppUser user = await _userManager.FindByIdAsync(userId);
+            if (user != null)
+            {
+                var userRoles = await _userManager.GetRolesAsync(user);
+                await _userManager.RemoveFromRolesAsync(user, userRoles);
+
+                await _userManager.AddToRolesAsync(user, roles);
+            }
+        }
+        public async Task<string[]> GetRolesToUserAsync(string userIdOrName)
+        {
+            AppUser user = await _userManager.FindByIdAsync(userIdOrName);
+            if (user == null)
+                user = await _userManager.FindByNameAsync(userIdOrName);
+
+            if (user != null)
+            {
+                var userRoles = await _userManager.GetRolesAsync(user);
+                return userRoles.ToArray();
+            }
+            return new string[] { };
         }
     }
 }

@@ -1,7 +1,11 @@
-﻿using AuthExample.Application.Features.Commands.User.CreateUser;
+﻿using AuthExample.Application.CustomAttributes;
+using AuthExample.Application.Enums;
+using AuthExample.Application.Features.Commands.User.AssignRoleToUser;
+using AuthExample.Application.Features.Commands.User.CreateUser;
 using AuthExample.Application.Features.Commands.User.Remove;
 using AuthExample.Application.Features.Commands.User.UpdatePassword;
 using AuthExample.Application.Features.Queries.User.GetAllUser;
+using AuthExample.Application.Features.Queries.User.GetRolesToUser;
 using AuthExample.Application.Features.Queries.User.GetUserByUserId;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -50,6 +54,20 @@ namespace AuthExample.API.Controllers
         public async Task<IActionResult> RemoveUser([FromRoute] RemoveUserCommandRequest request)
         {
             RemoveUserCommandResponse response = await _mediator.Send(request);
+            return Ok(response);
+        }
+
+        [HttpPost("[action]")]
+        public async Task<IActionResult> AssignRoleToUser(AssignRoleToUserCommandRequest assignRoleToUserCommandRequest)
+        {
+            AssignRoleToUserCommandResponse response = await _mediator.Send(assignRoleToUserCommandRequest);
+            return Ok(response);
+        }
+
+        [HttpGet("[action]/{UserId}")]
+        public async Task<IActionResult> GetRolesToUser([FromRoute] GetRolesToUserQueryRequest getRolesToUserQueryRequest)
+        {
+            GetRolesToUserQueryResponse response = await _mediator.Send(getRolesToUserQueryRequest);
             return Ok(response);
         }
     }

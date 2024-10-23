@@ -18,6 +18,8 @@ namespace AuthExample.Application.Interfaces.Services
         Task<ListUser> GetUserByUsernameAsync(string userName);
         Task<ListUser> GetUserByUserId(string Id);
         Task DeleteUserAsync(string Id);
+        Task AssignRoleToUserAsnyc(string userId, string[] roles);
+        Task<string[]> GetRolesToUserAsync(string userIdOrName);
 
     }
 }

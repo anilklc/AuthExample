@@ -1,4 +1,5 @@
-﻿using AuthExample.Application.CustomAttributes;
+﻿using AuthExample.Application.Consts;
+using AuthExample.Application.CustomAttributes;
 using AuthExample.Application.Enums;
 using AuthExample.Application.Interfaces.Services.Configurations;
 using Microsoft.AspNetCore.Http;
@@ -17,7 +18,7 @@ namespace AuthExample.API.Controllers
         }
 
         [HttpGet("[action]")]
-        [AuthorizeDefinition(ActionType = ActionType.Reading,Definition = "Get Authorize Definition",Menu ="Application Service")] 
+        [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.ApplicationServices, ActionType = ActionType.Reading, Definition = "Get Authorize Definition")]
         public IActionResult GetAuthorizeDefinitionEndpoints()
         {
             var datas = _applicationService.GetAuthorizeDefinitionEndpoints(typeof(Program));
