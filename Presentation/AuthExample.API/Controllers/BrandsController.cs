@@ -1,9 +1,13 @@
-﻿using AuthExample.Application.Features.Commands.Brand.CreateBrand;
+﻿using AuthExample.Application.Consts;
+using AuthExample.Application.CustomAttributes;
+using AuthExample.Application.Enums;
+using AuthExample.Application.Features.Commands.Brand.CreateBrand;
 using AuthExample.Application.Features.Commands.Brand.RemoveBrand;
 using AuthExample.Application.Features.Commands.Brand.UpdateBrand;
 using AuthExample.Application.Features.Queries.Brand.GetAllBrand;
 using AuthExample.Application.Features.Queries.Brand.GetByIdBrand;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AuthExample.API.Controllers
@@ -32,7 +36,10 @@ namespace AuthExample.API.Controllers
             return Ok(response);
         }
 
+       
         [HttpPost("[action]")]
+        [Authorize(AuthenticationSchemes = "Admin")]
+        [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.Brands, ActionType = ActionType.Writing, Definition = "Create Brand")]
         public async Task<IActionResult> CreateBrand([FromBody] CreateBrandCommandRequest request)
         {
             CreateBrandCommandResponse response = await _mediator.Send(request);
@@ -40,6 +47,8 @@ namespace AuthExample.API.Controllers
         }
 
         [HttpPut("[action]")]
+        [Authorize(AuthenticationSchemes = "Admin")]
+        [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.Brands, ActionType = ActionType.Writing, Definition = "Update Brand")]
         public async Task<IActionResult> UpdateBrand([FromBody] UpdateBrandCommandRequest request)
         {
             UpdateBrandCommandResponse response = await _mediator.Send(request);
@@ -47,6 +56,8 @@ namespace AuthExample.API.Controllers
         }
 
         [HttpDelete("[action]/{Id}")]
+        [Authorize(AuthenticationSchemes = "Admin")]
+        [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.Brands, ActionType = ActionType.Deleting, Definition = "Delete Brand")]
         public async Task<IActionResult> RemoveBrand(string Id)
         {
             RemoveBrandCommandRequest request = new RemoveBrandCommandRequest { Id = Id };

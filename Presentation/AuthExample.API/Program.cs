@@ -2,6 +2,7 @@ using AuthExample.Application;
 using AuthExample.Persistence;
 using AuthExample.Infrastructure;
 using AuthExample.Application.Exceptions;
+using AuthExample.API.Filters;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,7 +10,10 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddPersistenceServices(builder.Configuration);
 builder.Services.AddApplicationServices();
 builder.Services.AddInfrastructureServices(builder.Configuration);
-builder.Services.AddControllers();
+builder.Services.AddControllers(options =>
+{
+    options.Filters.Add<RolePermissionFilter>();
+});
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

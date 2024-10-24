@@ -2,6 +2,7 @@
 using AuthExample.Application.CustomAttributes;
 using AuthExample.Application.Enums;
 using AuthExample.Application.Interfaces.Services.Configurations;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,6 +19,7 @@ namespace AuthExample.API.Controllers
         }
 
         [HttpGet("[action]")]
+        [Authorize(AuthenticationSchemes = "Admin")]
         [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.ApplicationServices, ActionType = ActionType.Reading, Definition = "Get Authorize Definition")]
         public IActionResult GetAuthorizeDefinitionEndpoints()
         {

@@ -7,6 +7,7 @@ using AuthExample.Application.Features.Commands.Role.UpdateRole;
 using AuthExample.Application.Features.Queries.Role.GetAllRole;
 using AuthExample.Application.Features.Queries.Role.GetRoleById;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -41,6 +42,7 @@ namespace AuthExample.API.Controllers
         }
 
         [HttpPost("[action]")]
+        [Authorize(AuthenticationSchemes = "Admin")]
         [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.Roles, ActionType = ActionType.Writing, Definition = "Create Role")]
         public async Task<IActionResult> CreateRole([FromBody] CreateRoleCommandRequest createRoleCommandRequest)
         {
@@ -49,6 +51,7 @@ namespace AuthExample.API.Controllers
         }
 
         [HttpPut("[action]")]
+        [Authorize(AuthenticationSchemes = "Admin")]
         [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.Roles, ActionType = ActionType.Updating, Definition = "Update Role")]
         public async Task<IActionResult> UpdateRole([FromBody, FromRoute] UpdateRoleCommandRequest updateRoleCommandRequest)
         {
@@ -57,6 +60,7 @@ namespace AuthExample.API.Controllers
         }
 
         [HttpDelete("[action]/{Id}")]
+        [Authorize(AuthenticationSchemes = "Admin")]
         [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.Roles, ActionType = ActionType.Deleting, Definition = "Delete Role")]
         public async Task<IActionResult> RemoveRole([FromRoute] RemoveRoleCommandRequest removeRoleCommandRequest)
         {

@@ -1,4 +1,5 @@
-﻿using AuthExample.Application.CustomAttributes;
+﻿using AuthExample.Application.Consts;
+using AuthExample.Application.CustomAttributes;
 using AuthExample.Application.Enums;
 using AuthExample.Application.Features.Commands.User.AssignRoleToUser;
 using AuthExample.Application.Features.Commands.User.CreateUser;
@@ -37,6 +38,8 @@ namespace AuthExample.API.Controllers
         }
 
         [HttpGet("[action]")]
+        [Authorize(AuthenticationSchemes = "Admin")]
+        [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.AuthorizationEndpoint, ActionType = ActionType.Writing, Definition = "Assign Role")]
         public async Task<IActionResult> GetAllUsers()
         {
             GetAllUsersQueryResponse response = await _mediator.Send(new GetAllUsersQueryRequest());
@@ -58,6 +61,8 @@ namespace AuthExample.API.Controllers
         }
 
         [HttpPost("[action]")]
+        [Authorize(AuthenticationSchemes = "Admin")]
+        [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.Users, ActionType = ActionType.Writing, Definition = "Assign Role To User")]
         public async Task<IActionResult> AssignRoleToUser(AssignRoleToUserCommandRequest assignRoleToUserCommandRequest)
         {
             AssignRoleToUserCommandResponse response = await _mediator.Send(assignRoleToUserCommandRequest);
@@ -65,6 +70,8 @@ namespace AuthExample.API.Controllers
         }
 
         [HttpGet("[action]/{UserId}")]
+        [Authorize(AuthenticationSchemes = "Admin")]
+        [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.Users, ActionType = ActionType.Reading, Definition = "Get Roles To User")]
         public async Task<IActionResult> GetRolesToUser([FromRoute] GetRolesToUserQueryRequest getRolesToUserQueryRequest)
         {
             GetRolesToUserQueryResponse response = await _mediator.Send(getRolesToUserQueryRequest);

@@ -12,6 +12,8 @@ namespace AuthExample.Application.Consts
         public const string Products = "Products";
         public const string Roles = "Roles";
         public const string ApplicationServices = "Application Services";
+        public const string AuthorizationEndpoint = "AuthorizationEndpoints";
+        public const string Users = "Users";
 
 
     }

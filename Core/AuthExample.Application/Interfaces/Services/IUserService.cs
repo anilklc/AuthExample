@@ -20,6 +20,7 @@ namespace AuthExample.Application.Interfaces.Services
         Task DeleteUserAsync(string Id);
         Task AssignRoleToUserAsnyc(string userId, string[] roles);
         Task<string[]> GetRolesToUserAsync(string userIdOrName);
+        Task<bool> HasRolePermissionToEndpointAsync(string name, string code);
 
     }
 }

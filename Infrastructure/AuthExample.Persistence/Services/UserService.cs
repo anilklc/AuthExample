@@ -1,7 +1,9 @@
 ﻿using AuthExample.Application.DTOs.Role;
 using AuthExample.Application.DTOs.User;
 using AuthExample.Application.Exceptions;
+using AuthExample.Application.Interfaces.Repositories;
 using AuthExample.Application.Interfaces.Services;
+using AuthExample.Domain.Entities;
 using AuthExample.Domain.Entities.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.WebUtilities;
@@ -18,10 +20,12 @@ namespace AuthExample.Persistence.Services
     public class UserService : IUserService
     {
         private readonly UserManager<AppUser> _userManager;
+        private readonly IEndpointReadRepository _endpointReadRepository;
 
-        public UserService(UserManager<AppUser> userManager)
+        public UserService(UserManager<AppUser> userManager, IEndpointReadRepository endpointReadRepository)
         {
             _userManager = userManager;
+            _endpointReadRepository = endpointReadRepository;
         }
 
         public async Task<CreateUserResponse> CreateAsync(CreateUser user)
@@ -159,9 +163,10 @@ namespace AuthExample.Persistence.Services
         }
         public async Task<string[]> GetRolesToUserAsync(string userIdOrName)
         {
-            AppUser user = await _userManager.FindByIdAsync(userIdOrName);
+            AppUser user = await _userManager.FindByNameAsync(userIdOrName);
+
             if (user == null)
-                user = await _userManager.FindByNameAsync(userIdOrName);
+                user = await _userManager.FindByIdAsync(userIdOrName);
 
             if (user != null)
             {
@@ -170,5 +175,23 @@ namespace AuthExample.Persistence.Services
             }
             return new string[] { };
         }
+
+        public async Task<bool> HasRolePermissionToEndpointAsync(string name, string code)
+        {
+            var userRoles = await GetRolesToUserAsync(name);
+
+            if (userRoles == null || !userRoles.Any())
+                return false;
+
+            Endpoint? endpoint = await _endpointReadRepository.Table
+                .Include(e => e.Roles)
+                .FirstOrDefaultAsync(e => e.Code == code);
+
+            if (endpoint == null || endpoint.Roles == null || !endpoint.Roles.Any())
+                return false;
+
+            return endpoint.Roles.Any(r => userRoles.Contains(r.Name));
+        }
+
     }
 }
