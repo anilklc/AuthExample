@@ -41,13 +41,21 @@ namespace AuthExample.Persistence.Services
             }, user.Password);
             CreateUserResponse response = new() { Succeeded = result.Succeeded };
 
-            if (result.Succeeded)
-                response.Message = "Kullanıcı başarıyla oluşturulmuştur.";
-
+            if (result.Succeeded) 
+            { 
+            await AddUserRole(user.Username);
+            response.Message = "Kullanıcı başarıyla oluşturulmuştur.";
+            }
             else
                 foreach (var error in result.Errors)
                     response.Message += $"{error.Code} - {error.Description}\n";
             return response;
+        }
+
+        public async Task AddUserRole(string username)
+        {
+            AppUser? user = await _userManager.FindByNameAsync(username);
+            await _userManager.AddToRoleAsync(user,"User");
         }
 
         public async Task UpdateRefreshTokenAsync(string refreshToken, AppUser user, DateTime tokenDate, int refreshTokenTime)
