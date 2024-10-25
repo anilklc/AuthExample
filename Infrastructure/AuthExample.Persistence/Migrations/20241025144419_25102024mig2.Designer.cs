@@ -4,6 +4,7 @@ using AuthExample.Persistence.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AuthExample.Persistence.Migrations
 {
     [DbContext(typeof(AuthExampleDbContext))]
-    partial class AuthExampleDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241025144419_25102024mig2")]
+    partial class _25102024mig2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -231,13 +234,10 @@ namespace AuthExample.Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("AppUserId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid>("ProductId")
+                    b.Property<Guid>("ProductsId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Status")
@@ -249,9 +249,7 @@ namespace AuthExample.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AppUserId");
-
-                    b.HasIndex("ProductId");
+                    b.HasIndex("ProductsId");
 
                     b.ToTable("Orders");
                 });
@@ -420,21 +418,13 @@ namespace AuthExample.Persistence.Migrations
 
             modelBuilder.Entity("AuthExample.Domain.Entities.Order", b =>
                 {
-                    b.HasOne("AuthExample.Domain.Entities.Identity.AppUser", "AppUser")
+                    b.HasOne("AuthExample.Domain.Entities.Product", "Products")
                         .WithMany()
-                        .HasForeignKey("AppUserId")
+                        .HasForeignKey("ProductsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("AuthExample.Domain.Entities.Product", "Product")
-                        .WithMany()
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("AppUser");
-
-                    b.Navigation("Product");
+                    b.Navigation("Products");
                 });
 
             modelBuilder.Entity("AuthExample.Domain.Entities.Product", b =>

@@ -21,6 +21,7 @@ namespace AuthExample.Persistence.Context
         public DbSet<Brand> Brands { get; set; }
         public DbSet<Menu>  Menus { get; set; }
         public DbSet<Endpoint> Endpoint { get; set; }
+        public DbSet<Order> Orders { get; set; }
 
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {

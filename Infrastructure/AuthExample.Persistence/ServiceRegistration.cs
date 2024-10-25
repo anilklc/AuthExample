@@ -42,6 +42,8 @@ namespace AuthExample.Persistence
             services.AddScoped<IEndpointReadRepository,EndpointReadRepository>();
             services.AddScoped<IEndpointWriteRepository,EndpointWriteRepository>();
             services.AddScoped<IAuthorizationEndpointService,AuthorizationEndpointService>();
+            services.AddScoped<IOrderReadRepository, OrderReadRepository>();
+            services.AddScoped<IOrderWriteRepository, OrderWriteRepository>();
         }
     }
 }
