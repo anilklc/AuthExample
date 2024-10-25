@@ -6,6 +6,7 @@ using AuthExample.Application.Features.Commands.Product.RemoveProduct;
 using AuthExample.Application.Features.Commands.Product.UpdateProduct;
 using AuthExample.Application.Features.Queries.Product.GetAllProduct;
 using AuthExample.Application.Features.Queries.Product.GetByIdProduct;
+using AuthExample.Application.Features.Queries.Product.GetProductCount;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -23,6 +24,7 @@ namespace AuthExample.API.Controllers
         }
 
         [HttpGet("[action]")]
+        [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.Products, ActionType = ActionType.Writing, Definition = "Get All Product")]
         public async Task<IActionResult> GetAllProducts()
         {
             GetAllProductQueryResponse response = await _mediator.Send(new GetAllProductQueryRequest());
@@ -31,10 +33,21 @@ namespace AuthExample.API.Controllers
         }
 
         [HttpGet("[action]/{Id}")]
+        [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.Products, ActionType = ActionType.Writing, Definition = "Get Product")]
         public async Task<IActionResult> GetByIdProduct([FromRoute] GetByIdProductQueryRequest request)
         {
             GetByIdProductQueryResponse response = await _mediator.Send(request);
             return Ok(response);
+        }
+
+        [HttpGet("[action]")]
+        [Authorize(AuthenticationSchemes = "Admin")]
+        [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.Products, ActionType = ActionType.Reading, Definition = "Get Product Count")]
+        public async Task<IActionResult> GetProductCount()
+        {
+            GetProductCountQueryResponse response = await _mediator.Send(new GetProductCountQueryRequest());
+            return Ok(response);
+
         }
 
         [HttpPost("[action]")]

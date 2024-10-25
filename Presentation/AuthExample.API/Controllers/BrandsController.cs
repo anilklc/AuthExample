@@ -23,6 +23,7 @@ namespace AuthExample.API.Controllers
         }
 
         [HttpGet("[action]")]
+        [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.Brands, ActionType = ActionType.Writing, Definition = "Get All Brand")]
         public async Task<IActionResult> GetAllBrands()
         {
             GetAllBrandQueryResponse response = await _mediator.Send(new GetAllBrandQueryRequest());
@@ -30,6 +31,8 @@ namespace AuthExample.API.Controllers
         }
 
         [HttpGet("[action]/{Id}")]
+        [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.Brands, ActionType = ActionType.Writing, Definition = "Get Brand")]
+
         public async Task<IActionResult> GetByIdBrand([FromRoute] GetByIdBrandQueryRequest request)
         {
             GetByIdBrandQueryResponse response = await _mediator.Send(request);

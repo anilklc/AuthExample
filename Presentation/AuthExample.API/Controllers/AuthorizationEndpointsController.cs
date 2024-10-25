@@ -22,6 +22,8 @@ namespace AuthExample.API.Controllers
         }
 
         [HttpGet("[action]/{Menu}/{Code}")]
+        [Authorize(AuthenticationSchemes = "Admin")]
+        [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.AuthorizationEndpoint, ActionType = ActionType.Reading, Definition = "Get Roles")]
         public async Task<IActionResult> GetRolesToEndpoint([FromRoute] GetRolesToEndpointQueryRequest rolesToEndpointQueryRequest)
         {
             GetRolesToEndpointQueryResponse response = await _mediator.Send(rolesToEndpointQueryRequest);

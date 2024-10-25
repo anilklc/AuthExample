@@ -70,12 +70,12 @@ namespace AuthExample.API.Controllers
         }
 
         [HttpGet("[action]/{UserId}")]
-        [Authorize(AuthenticationSchemes = "Admin")]
         [AuthorizeDefinition(Menu = AuthorizeDefinitionConstants.Users, ActionType = ActionType.Reading, Definition = "Get Roles To User")]
         public async Task<IActionResult> GetRolesToUser([FromRoute] GetRolesToUserQueryRequest getRolesToUserQueryRequest)
         {
             GetRolesToUserQueryResponse response = await _mediator.Send(getRolesToUserQueryRequest);
             return Ok(response);
         }
+
     }
 }
